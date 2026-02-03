@@ -1,0 +1,215 @@
+@import "tailwindcss";
+
+:root {
+  /* High-End Dark Palette */
+  --bg-dark: #000000;
+  --bg-card: #0a0a0a;
+  --bg-card-hover: #111111;
+
+  --foreground: #ffffff;
+  --foreground-muted: #a1a1aa;
+
+  --accent: #00e5ff;
+  /* Hyper Cyan */
+  --accent-glow: rgba(0, 229, 255, 0.15);
+
+  --border-muted: rgba(255, 255, 255, 0.08);
+  --border-highlight: rgba(255, 255, 255, 0.15);
+
+  /* Spacing */
+  --section-padding: clamp(4rem, 12vw, 10rem);
+  --container-max-width: 1400px;
+}
+
+@theme inline {
+  --color-background: var(--bg-dark);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* ============================================
+   BASE RESET
+   ============================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg-dark);
+}
+
+body {
+  background: var(--bg-dark);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ============================================
+   UTILITIES & EFFECTS
+   ============================================ */
+
+/* Grid Background */
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(to right, var(--border-muted) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--border-muted) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(circle at center, black, transparent 80%);
+  opacity: 0.4;
+}
+
+/* Subtle Glows */
+.bg-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(0, 229, 255, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(99, 102, 241, 0.1) 0%, transparent 40%);
+}
+
+.card-premium {
+  background: var(--bg-card);
+  border: 1px solid var(--border-muted);
+  border-radius: 24px;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  overflow: hidden;
+}
+
+.card-premium:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 30px -10px var(--accent-glow);
+  transform: translateY(-4px);
+}
+
+.text-gradient {
+  background: linear-gradient(to bottom right, #ffffff 30%, rgba(255, 255, 255, 0.5));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-accent-gradient {
+  background: linear-gradient(135deg, var(--accent), #6366f1);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
+h1,
+h2,
+h3 {
+  letter-spacing: -0.04em;
+  font-weight: 800;
+  line-height: 0.95;
+}
+
+.section-title {
+  font-size: clamp(3rem, 8vw, 6rem);
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+/* ============================================
+   LAYOUT
+   ============================================ */
+.section {
+  padding: var(--section-padding) 2rem;
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+}
+
+.section-full {
+  padding: var(--section-padding) 0;
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal {
+  animation: slideUp 1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-highlight);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* Shimmer Effect for Buttons */
+.btn-shimmer {
+  position: relative;
+  overflow: hidden;
+  background: var(--accent);
+  color: black;
+  font-weight: 700;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.btn-shimmer:hover {
+  box-shadow: 0 0 20px var(--accent-glow);
+  scale: 1.02;
+}
+
+.btn-shimmer::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transform: rotate(45deg);
+  animation: shimmer-btn 3s infinite;
+}
+
+@keyframes shimmer-btn {
+  0% {
+    transform: translateX(-100%) rotate(45deg);
+  }
+
+  100% {
+    transform: translateX(100%) rotate(45deg);
+  }
+}
