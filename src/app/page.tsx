@@ -1,29 +1,21 @@
-import { Navbar } from "@/components/Navbar";
-import { Hero } from "@/components/Hero";
-import { About } from "@/components/About";
-import { Skills } from "@/components/Skills";
-import { Projects } from "@/components/Projects";
-import { Startup } from "@/components/Startup";
-import { Research } from "@/components/Research";
-import { Learning } from "@/components/Learning";
-import { Experience } from "@/components/Experience";
-import { Contact } from "@/components/Contact";
-import { Footer } from "@/components/Footer";
+import { Hero } from "@/components/home/Hero";
+import { TrustBar } from "@/components/home/TrustBar";
+import { FeaturedProjects } from "@/components/home/FeaturedProjects";
+import { ServiceTeaser } from "@/components/home/ServiceTeaser";
+import { StartupHighlight } from "@/components/home/StartupHighlight";
+import { Testimonials } from "@/components/home/Testimonials";
+import { CTAStrip } from "@/components/home/CTAStrip";
 
 export default function Home() {
   return (
-    <main className="min-h-screen">
-      <Navbar />
+    <>
       <Hero />
-      <About />
-      <Skills />
-      <Projects />
-      <Startup />
-      <Research />
-      <Learning />
-      <Experience />
-      <Contact />
-      <Footer />
-    </main>
+      <TrustBar />
+      <FeaturedProjects />
+      <ServiceTeaser />
+      <StartupHighlight />
+      <Testimonials />
+      <CTAStrip />
+    </>
   );
 }
