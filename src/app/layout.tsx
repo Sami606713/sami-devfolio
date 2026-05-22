@@ -59,7 +59,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main className="pt-16">{children}</main>
         <Footer />
         <Analytics />
-        <GoogleAnalytics gaId="G-CZ2TDHVLWZ" />
+        <GoogleAnalytics gaId="G-J05E99QEPB" />
       </body>
     </html>
   );
