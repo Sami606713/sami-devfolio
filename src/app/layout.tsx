@@ -1,63 +1,73 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
-import "./globals.css";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
+import { Geist, Geist_Mono } from "next/font/google";
+import { cookies } from "next/headers";
 import { Analytics } from "@vercel/analytics/react";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { Footer } from "@/components/site/Footer";
+import { Nav } from "@/components/site/Nav";
+import { layers } from "@/components/site/layers";
+import { person } from "@/content/site";
+import "./globals.css";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-geist" });
+const mono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono" });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://sami-devfolio.vercel.app";
+const description =
+  "Samiullah is a senior AI engineer. He leads the rext.ai backend at Revnix and architects TheBotLab, a Shopify agent platform.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(person.site),
   title: {
-    default: "Samiullah — ML Engineer & AI Developer",
+    default: "Samiullah, Senior AI Engineer",
     template: "%s | Samiullah",
   },
-  description:
-    "ML Engineer & AI Developer specializing in LLMs, RAG systems, MLOps, and full-stack AI products. Available for freelance & remote work.",
-  keywords: [
-    "ML Engineer", "AI Developer", "LLM", "MLOps", "RAG", "LangChain",
-    "LangGraph", "Python", "FastAPI", "Next.js", "Pakistan", "Freelance AI",
-  ],
-  authors: [{ name: "Samiullah" }],
+  description,
+  authors: [{ name: person.name }],
   openGraph: {
-    title: "Samiullah — ML Engineer & AI Developer",
-    description:
-      "I build AI systems that go to production — from model to deployment to product. LLMs, RAG, MLOps, AI Agents.",
-    url: siteUrl,
-    siteName: "Samiullah Portfolio",
+    title: "Samiullah, Senior AI Engineer",
+    description,
+    url: person.site,
+    siteName: "Samiullah",
     type: "website",
-    images: [
-      {
-        url: "/branding/professional_profile.png",
-        width: 1024,
-        height: 1024,
-        alt: "Samiullah — ML Engineer & AI Developer",
-      },
-    ],
+    images: [{ url: "/visuals/portrait.jpg", width: 848, height: 1216, alt: "Samiullah" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Samiullah — ML Engineer & AI Developer",
-    description: "I build AI systems that go to production.",
-    images: ["/branding/professional_profile.png"],
+    title: "Samiullah, Senior AI Engineer",
+    description,
+    images: ["/visuals/portrait.jpg"],
   },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  robots: { index: true, follow: true },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const jar = await cookies();
+  const theme = jar.get("theme")?.value === "light" ? "light" : "dark";
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: person.name,
+    jobTitle: person.role,
+    email: person.email,
+    url: person.site,
+    address: { "@type": "PostalAddress", addressLocality: "Haripur", addressCountry: "PK" },
+    sameAs: [person.github, person.linkedin],
+  };
+
   return (
-    <html lang="en">
-      <body className={`${geist.variable} font-sans antialiased bg-background text-foreground min-h-screen overflow-x-hidden`}>
-        <Navbar />
-        <main className="pt-16">{children}</main>
+    <html lang="en" className={`${theme} ${geist.variable} ${mono.variable}`}>
+      <body className="min-h-[100dvh] antialiased">
+        <a
+          href="#content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:rounded-xl focus:bg-[var(--ink)] focus:px-3 focus:py-2 focus:text-sm focus:text-[var(--ink-text)]"
+          style={{ zIndex: layers.skip }}
+        >
+          Skip to content
+        </a>
+        <Nav />
+        <main id="content">{children}</main>
         <Footer />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <Analytics />
         <GoogleAnalytics gaId="G-J05E99QEPB" />
       </body>
